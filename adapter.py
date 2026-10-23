@@ -1,4 +1,4 @@
-"""PMT Flat: original PyTorch checkpoint, native 286D privileged observations."""
+"""PMT ADD: original PyTorch checkpoint, native 205D privileged observations."""
 import json
 import numpy as np
 import torch
@@ -9,7 +9,7 @@ from motion_challenge.sdk import ControlCommand
 from motion_challenge.validation import sha256_file
 
 
-class PMTFlat:
+class PMTADD:
     def __init__(self, root, runtime):
         cfg_path = root / runtime['inference_config']
         weights = root / runtime['weights']
@@ -26,7 +26,7 @@ class PMTFlat:
         torch.set_num_threads(1)
         sd = torch.load(weights, map_location='cpu', weights_only=True)['model_state_dict']
         layers = []
-        for a, b in zip([286, 512, 256, 128], [512, 256, 128, 29]):
+        for a, b in zip([205, 1024, 512, 512, 256], [1024, 512, 512, 256, 29]):
             layers.extend([nn.Linear(a, b), nn.ELU()])
         self.actor = nn.Sequential(*layers[:-1]).eval()
         self.actor.load_state_dict({k.removeprefix('actor.'): v for k, v in sd.items() if k.startswith('actor.')}, strict=True)
@@ -68,13 +68,13 @@ class PMTFlat:
             np.asarray(state.joint_velocity_rad_s)[self.order],
             self.last,
         ]).astype(np.float32)
-        if obs.shape != (286,) or not np.isfinite(obs).all():
+        if obs.shape != (205,) or not np.isfinite(obs).all():
             raise ValueError('invalid PMT observation')
         return obs
 
     @torch.inference_mode()
     def infer(self, obs):
-        return self.actor((torch.from_numpy(obs).reshape(1, 286) - self.mean) / (self.std + self.eps))[0].numpy()
+        return self.actor((torch.from_numpy(obs).reshape(1, 205) - self.mean) / (self.std + self.eps))[0].numpy()
 
     def act(self, state, reference):
         action = self.infer(self.observations(state, reference))
@@ -92,4 +92,4 @@ class PMTFlat:
 
 
 def create(root, runtime):
-    return PMTFlat(root, runtime)
+    return PMTADD(root, runtime)

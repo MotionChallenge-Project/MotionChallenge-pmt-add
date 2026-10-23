@@ -3,7 +3,7 @@
 uv run validate_inference.py --source /path/to/PMT --isaac-math /path/to/math.py
   --isaac-observations /path/to/observations.py
   --isaac-articulation /path/to/articulation_data.py
-  --weights /path/to/multimotionv2_flat.pt --output /outside/git/parity.json
+  --weights /path/to/add_multimotion_flat.pt --output /outside/git/parity.json
 
 Isaac math: source/isaaclab/isaaclab/utils/math.py at native-sources.json commit.
 Executes the original function/class AST without simulator imports or JIT
@@ -23,7 +23,7 @@ import torch
 from torch import nn
 from torch.distributions import Normal
 from scipy.spatial.transform import Rotation as R
-from adapter import PMTFlat
+from adapter import PMTADD
 from motion_challenge.sdk import BodyState, StatePacket, ReferenceFrame
 
 
@@ -105,17 +105,30 @@ def main():
             raise ValueError('Isaac Lab velocity definition checksum mismatch')
     runtime = json.loads((root/'runtime.json').read_text())
     runtime['weights'] = str(args.weights.resolve())
-    adapter = PMTFlat(root, runtime)
+    adapter = PMTADD(root, runtime)
     config_checks = validate_control_config(args.source,root,adapter,pinned)
+    config_tree = ast.parse((args.source/'pmt_tasks/env_cfgs/add/add_multimotion.py').read_text())
+    constants = [n for n in config_tree.body if isinstance(n,ast.AnnAssign) and isinstance(n.target,ast.Name)
+                 and n.target.id in ('ADD_KEY_BODY_NAMES','ADD_ANCHOR_BODY','TRACKED_BODY_NAMES')]
+    config_scope = {'List':list}
+    exec(compile(ast.Module(body=constants,type_ignores=[]),'native-add-body-config','exec'),config_scope)
+    assert adapter.cfg['body_names']==config_scope['TRACKED_BODY_NAMES']
+    assert adapter.cfg['anchor_body']==config_scope['ADD_ANCHOR_BODY']
+    network_config = (args.source/'configs/network/mlp.yaml').read_text()
+    for role in ('actor','critic'):
+        dims = re.search(role+r'_hidden_dims: (\[[^\n]+\])',network_config).group(1)
+        assert ast.literal_eval(dims)==[1024,512,512,256]
+    config_checks['native_add_body_order_and_network']=True
+
     scope = {'torch': torch, 'nn': nn, 'np': np, 'reduce': reduce, 'Normal': Normal,
              'resolve_nn_activation': lambda name: {'elu': nn.ELU}[name]()}
     base = args.source/'motion_tracking_rl/networks'
     source_definitions(base/'layers/normalization.py', ['EmpiricalNormalization'], scope)
     source_definitions(base/'layers/mlp.py', ['MLP'], scope)
     source_definitions(base/'actor_critic.py', ['ActorCritic'], scope)
-    native = scope['ActorCritic']({'policy': torch.zeros(1,286), 'critic': torch.zeros(1,286)},
+    native = scope['ActorCritic']({'policy': torch.zeros(1,205), 'critic': torch.zeros(1,205)},
         {'policy': ['policy'], 'critic': ['critic']}, 29,
-        actor_hidden_dims=[512,256,128], critic_hidden_dims=[512,256,128],
+        actor_hidden_dims=[1024,512,512,256], critic_hidden_dims=[1024,512,512,256],
         actor_obs_normalization=True, critic_obs_normalization=True, activation='elu').eval()
     checkpoint = torch.load(args.weights, map_location='cpu', weights_only=True)
     native.load_state_dict(checkpoint['model_state_dict'], strict=True)
@@ -153,7 +166,7 @@ def main():
         for step in range(40):
             bodies = tuple(body(n) for n in adapter.cfg['body_names'])
             refs = tuple(body(n) for n in adapter.cfg['body_names'])
-            root_body = bodies[0]
+            root_body = body('pelvis')
             state = StatePacket(step*.02, names, tuple(rng.normal(size=29)), tuple(rng.normal(size=29)),
                 root_body.position_world_m, root_body.orientation_xyzw,
                 root_body.linear_velocity_world_m_s, root_body.angular_velocity_world_rad_s, bodies)

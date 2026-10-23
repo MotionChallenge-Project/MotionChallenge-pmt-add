@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "cases": 160,
+  "resets": 4,
+  "max_abs_error": {
+    "observation": 1.6689300537109375e-06,
+    "normalized": 2.3841690563131124e-05,
+    "network": 0.0,
+    "action": 1.1920928955078125e-06,
+    "motor_target": 5.364418029785156e-07,
+    "reset_history": 0.0
+  },
+  "limits": {
+    "observation": 0.0002,
+    "normalized": 0.002,
+    "network": 1e-06,
+    "action": 0.0002,
+    "motor_target": 0.0002,
+    "reset_history": 0.0
+  },
+  "checkpoint_sha256": "7f90c94f13f4cca7f57cad4535f6af99a25f80628344ed91567e0e8d7b1f3bc4",
+  "source_commit": "1a92390077d329d22cbcdbf89c4a5c982003fbc8",
+  "isaaclab_math_commit": "5c2ec81cb17532d32f7922dd7fcaae40d123b71a",
+  "normalizer_epsilon": 0.01,
+  "torch_version": "2.9.0+cpu",
+  "config_checks": {
+    "native_pd_default_action_scale": true,
+    "canonical_pelvis_com": true,
+    "native_add_body_order_and_network": true
+  },
+  "scope": "Original PMT observation functions and ActorCritic AST plus original IsaacLab math functions. Simulator imports and decorators omitted; inference and named-joint mapping only, not training-physics equivalence."
+}
