@@ -5,7 +5,7 @@
 ## Install and run
 
 ```bash
-git clone --recurse-submodules https://github.com/motion-challenge-project/motion-challenge-pmt-add.git
+git clone --recurse-submodules https://github.com/MotionChallenge-Project/motion-challenge-pmt-add.git
 cd motion-challenge-pmt-add
 uv sync
 uv run evaluate.py
