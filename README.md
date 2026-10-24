@@ -21,3 +21,7 @@ outside Git.
 
 This repository adapts model inference. The pinned root `MotionChallenge-Core`
 submodule owns datasets, physics, metrics and verification. See `--help` for options.
+
+## Observation track
+
+The restricted observation track is not yet admitted for this checkpoint. [Admission and special handling](admission.json) · [Rules](MotionChallenge-Core/docs/OBSERVATIONS.md).

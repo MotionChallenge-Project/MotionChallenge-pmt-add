@@ -1,0 +1,41 @@
+{
+  "schema": "MotionChallenge/observation-admission-v1",
+  "model": "pmt-add",
+  "display_name": "PMT ADD MLP 20k",
+  "state_access": "ideal-proprioceptive-no-position-v1",
+  "status": "incompatible_input_contract",
+  "checkpoint_sha256": "7f90c94f13f4cca7f57cad4535f6af99a25f80628344ed91567e0e8d7b1f3bc4",
+  "auxiliary_artifacts": {},
+  "checkpoint_origin": {
+    "author_release_url": "https://github.com/Mondo-Robotics/PMT/blob/1a92390077d329d22cbcdbf89c4a5c982003fbc8/README.md",
+    "author_release_label": "Mondo-Robotics/PMT",
+    "kind": "author_file",
+    "kind_label": "Author-released checkpoint",
+    "artifact_page_url": "https://huggingface.co/datasets/aCodeDog/PMT-assets/blob/38f9f7dba893385c6219620b72314396247c9e82/checkpoints/pretrained/add_multimotion_flat.pt",
+    "original_filename": "add_multimotion_flat.pt",
+    "verification": "The adapter pins this published artifact by SHA256. Artifact identity is separate from inference parity.",
+    "download_url": "https://huggingface.co/datasets/aCodeDog/PMT-assets/resolve/38f9f7dba893385c6219620b72314396247c9e82/checkpoints/pretrained/add_multimotion_flat.pt",
+    "sha256": "7f90c94f13f4cca7f57cad4535f6af99a25f80628344ed91567e0e8d7b1f3bc4"
+  },
+  "author_source": "https://github.com/Mondo-Robotics/PMT",
+  "author_commit": "1a92390077d329d22cbcdbf89c4a5c982003fbc8",
+  "base_adapter_commit": "2bf8bfd7d8938fd29a03248a0129d11b30e8e9c0",
+  "production_source_sha256": {
+    "adapter.py": "73ef6c02f311284413f83e625e74eebbaf3f851b2c1853287ae25b9c0b4a0af8",
+    "evaluate.py": "eacb83b1da8b667147244456b55f816f9f9edbf1d400d871b72cc2b71a8e6eb1",
+    "native-sources.json": "a3408340ab0d0cac6cb9c76c0ba9165e4fdb5d30d625b0d30a07afe86605ce07",
+    "policy.json": "78e51f8e9c06880f2d823a46dfc940d2bdd92b90f401c2f85c0a3b6b090e7fc6",
+    "validate_inference.py": "d50d116c3df3b0ed5ffeed0d5f36dd6a4fd31e388c1cec0c6e52c78befbcba39"
+  },
+  "prior_native_parity_sha256": {
+    "validation/native-parity.json": "aac907eff65d407f7194affce3bb910232a66b57cb9f07e5913297cb10069704"
+  },
+  "handling": "This exact released 286D MLP actor consumes motion_anchor_pos_b = R_actual_torso^-1 (p_reference_torso - p_actual_torso). No same-weight compliant author deployment path has been established. Do not zero or remove this actor feature.",
+  "actual_position_integration": "No explicit integration or odometry in the inspected deployed adapter source; blocked paths are listed separately.",
+  "special_handling": "This exact released 286D MLP actor consumes motion_anchor_pos_b = R_actual_torso^-1 (p_reference_torso - p_actual_torso). No same-weight compliant author deployment path has been established. Do not zero or remove this actor feature.",
+  "new_evaluation": {
+    "status": "not_started",
+    "inherited_scores": false
+  },
+  "repository": "https://github.com/MotionChallenge-Project/MotionChallenge-pmt-add"
+}
