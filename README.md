@@ -22,6 +22,9 @@ outside Git.
 This repository adapts model inference. The pinned root `MotionChallenge-Core`
 submodule owns datasets, physics, metrics and verification. See `--help` for options.
 
-## Observation track
+## Observations
 
-The restricted observation track is not yet admitted for this checkpoint. [Admission and special handling](admission.json) · [Rules](MotionChallenge-Core/docs/OBSERVATIONS.md).
+Ideal proprioception, without robot world-position or contact feedback. [Checkpoint requirements](admission.json) · [Rules](MotionChallenge-Core/docs/OBSERVATIONS.md).
+
+Evaluation is unavailable until this checkpoint has a verified author-supported
+inference path under these rules. The admission record describes the gap.
