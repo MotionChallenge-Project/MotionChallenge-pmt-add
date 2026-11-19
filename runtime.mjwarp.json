@@ -1,0 +1,25 @@
+{
+  "id": "pmt-add-g1-v1",
+  "entrypoint": "adapter:create",
+  "control_period_s": 0.02,
+  "reference_offsets_s": [
+    0.0
+  ],
+  "reference_history_s": 0,
+  "reference_preview_s": 0,
+  "state_access": "proprioceptive-no-position-no-linear-velocity-v1",
+  "action_mode": "joint-pd-feedforward",
+  "weights": "checkpoints/add_multimotion_flat.pt",
+  "weights_url": "https://huggingface.co/datasets/aCodeDog/PMT-assets/resolve/38f9f7dba893385c6219620b72314396247c9e82/checkpoints/pretrained/add_multimotion_flat.pt",
+  "weights_sha256": "7f90c94f13f4cca7f57cad4535f6af99a25f80628344ed91567e0e8d7b1f3bc4",
+  "inference_config": "policy.json",
+  "inference_config_sha256": "78e51f8e9c06880f2d823a46dfc940d2bdd92b90f401c2f85c0a3b6b090e7fc6",
+  "source_repository": "https://github.com/Mondo-Robotics/PMT",
+  "source_commit": "1a92390077d329d22cbcdbf89c4a5c982003fbc8",
+  "official": false,
+  "observation_contract": {
+    "admission_record": "admission.mjwarp.json",
+    "admission_sha256": "c04d774edff575060d5099e1d90ae152308f2838af36bbb67e882518644d4b92"
+  },
+  "migration_status": "excluded"
+}

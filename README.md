@@ -1,30 +1,9 @@
-# PMT ADD MLP 20k
+# MotionChallenge · pmt-add
 
-[Author project](https://github.com/Mondo-Robotics/PMT) · [Checkpoint](https://huggingface.co/datasets/aCodeDog/PMT-assets/blob/38f9f7dba893385c6219620b72314396247c9e82/checkpoints/pretrained/add_multimotion_flat.pt) · [Provenance](provenance.json)
+This checkpoint is excluded from the MotionChallenge protocol because its released policy observation consumes actual robot linear velocity.
 
-## Install and run
+The protocol excludes actual global position and actual linear velocity in every frame, including explicit estimates. Reference root/joint motion and their derivatives are permitted.
 
-```bash
-git clone --recurse-submodules https://github.com/MotionChallenge-Project/MotionChallenge-pmt-add.git
-cd MotionChallenge-pmt-add
-uv sync
-uv run evaluate.py
-```
+[Checkpoint admission](admission.mjwarp.json) · [Observation protocol](MotionChallenge-Core/docs/OBSERVATIONS.md)
 
-One full rollout per motion produces success, completion and all six MPBPE values
-in one verified `result.json`. MuJoCo 3.17 CPU batch; `--jobs 8` sets rollout and
-verification parallelism. Progress updates every five seconds.
-
-Missing data and weights are downloaded and hash-checked. Cached files can be
-selected with `--weights PATH --data PATH --offline`. Results and traces stay
-outside Git.
-
-This repository adapts model inference. The pinned root `MotionChallenge-Core`
-submodule owns datasets, physics, metrics and verification. See `--help` for options.
-
-## Observations
-
-Ideal proprioception, without robot world-position or contact feedback. [Checkpoint requirements](admission.json) · [Rules](MotionChallenge-Core/docs/OBSERVATIONS.md).
-
-Evaluation is unavailable until this checkpoint has a verified author-supported
-inference path under these rules. The admission record describes the gap.
+The evaluator checks the admission record and rejects this checkpoint. No LAFAN or SEED leaderboard score is published for it.
