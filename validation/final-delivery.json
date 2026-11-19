@@ -2,7 +2,7 @@
   "model": "pmt-add",
   "status": "passed",
   "errors": [],
-  "core_commit": "2221fab60a90adc3c85b1dfd438e00244fb58263",
+  "core_commit": "e4cb035b9f95ec820c4a0384df1f4ebdcbc0abf4",
   "runtime_sha256": "d9aa6ec2c4b794013c4eb781c50ad6a461935112e8c4f7a8a45678948ab0c3c2",
   "locked_environment_and_cli": true,
   "own_core_import": "/mnt/volumes/nexus-train-bd-ga/swd/motionchallenge-mjwarp/MotionChallenge-pmt-add/MotionChallenge-Core/src/motion_challenge/__init__.py",
